@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  audio-uploader:
+    build: .
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      - WATCHPACK_POLLING=true
+    networks:
+      - eigenavs
+
+networks:
+  eigenavs:
+    external: true  # Uses the pre-created network
