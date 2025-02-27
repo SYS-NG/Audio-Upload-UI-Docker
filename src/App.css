@@ -1,38 +1,58 @@
+/* Make sure to remove or override any default margins/padding from the body */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  /* Use the background image in public/ folder */
+  background: url("./background.svg") center center no-repeat;
+  background-size: cover;
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center */
+  align-items: center;     /* Horizontally center */
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: rgba(255, 255, 255, 0.8); 
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  /* If you don’t want a semi-opaque box behind your content, you can remove the background-color and box-shadow. */
 }
 
-.App-link {
-  color: #61dafb;
+/* Logo styling */
+.App-logo {
+  height: 80px;
+  margin-bottom: 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Title */
+.title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Upload section */
+.upload-section {
+  margin-bottom: 1rem;
+}
+
+/* Status message styling */
+.status {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
 }

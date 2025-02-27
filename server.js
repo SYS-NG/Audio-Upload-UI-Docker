@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
+const ffmpeg = require('fluent-ffmpeg');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -29,9 +30,10 @@ const storage = multer.diskStorage({
 const upload = multer({ 
   storage,
   fileFilter: (req, file, cb) => {
-    // Only allow .wav files
-    if (path.extname(file.originalname).toLowerCase() !== '.wav') {
-      return cb(new Error('Only .wav files are allowed'));
+    // Only allow .wav and .mp4 files
+    const allowedExtensions = ['.wav', '.mp4'];
+    if (!allowedExtensions.includes(path.extname(file.originalname).toLowerCase())) {
+      return cb(new Error('Only .wav and .mp4 files are allowed'));
     }
     cb(null, true);
   }
@@ -40,20 +42,46 @@ const upload = multer({
 // An in-memory queue (in production, consider using a database)
 let fileQueue = [];
 
-// POST /upload endpoint: upload and queue the .wav file
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
   }
 
-  // Keep only the latest file in the queue
-  fileQueue = [{
-    filename: req.file.filename,
-    originalname: req.file.originalname,
-    filePath: req.file.path
-  }];
+  // Function to add file to the queue and respond
+  const addToQueue = (filename, originalname, filePath, message) => {
+    fileQueue = [{
+      filename,
+      originalname,
+      filePath
+    }];
+    res.json({ message, file: { filename, originalname } });
+  };
 
-  res.json({ message: "File uploaded successfully", file: req.file });
+  const ext = path.extname(req.file.originalname).toLowerCase();
+  if (ext === '.mp4') {
+    // Build the output filename for the .wav file
+    const wavFilename = req.file.filename.replace(/\.mp4$/, '.wav');
+    const wavFilePath = path.join(uploadDir, wavFilename);
+
+    // Use ffmpeg to extract audio and convert to wav
+    ffmpeg(req.file.path)
+      .noVideo() // Remove video stream
+      .format('wav')
+      .on('end', () => {
+        console.log(`Conversion complete: ${wavFilename}`);
+        // Optionally, delete the original .mp4 file if not needed:
+        // fs.unlinkSync(req.file.path);
+        addToQueue(wavFilename, req.file.originalname.replace(/\.mp4$/, '.wav'), wavFilePath, "File uploaded and converted successfully");
+      })
+      .on('error', (err) => {
+        console.error('Error converting file: ', err);
+        res.status(500).json({ message: "Error converting file" });
+      })
+      .save(wavFilePath);
+  } else {
+    // If it's already a .wav file, just add it to the queue
+    addToQueue(req.file.filename, req.file.originalname, req.file.path, "File uploaded successfully");
+  }
 });
 
 // GET /queue endpoint: return list of queued files with download URLs
