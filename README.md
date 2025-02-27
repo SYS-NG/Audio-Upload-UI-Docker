@@ -17,10 +17,7 @@
 - [Project Structure](#project-structure)
 - [API Endpoints](#api-endpoints)
 - [Technologies Used](#technologies-used)
-
 - [License](#license)
-- [Acknowledgments](#acknowledgments)
-- [Contact](#contact)
 
 ## Introduction
 
