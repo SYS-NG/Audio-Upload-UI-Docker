@@ -1,70 +1,209 @@
-# Getting Started with Create React App
+# Audio Uploader
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Logo](public/logo.png)
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Introduction](#introduction)
+- [Features](#features)
+- [Demo](#demo)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+    - [Using npm](#using-npm)
+    - [Using Docker](#using-docker)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Contact](#contact)
 
-### `npm start`
+## Introduction
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Audio Uploader** is a web application designed to be the UI for uploading and processing audio and video files in the Momenta-AVS application. This application is built with a React frontend and an Express.js backend.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- **File Upload:** Supports `.wav` and `.mp4` file formats.
+- **Real-Time Processing:** Converts video files to audio and processes them for inference.
+- **Inference Results:** Determines if the uploaded audio is human or synthetic AI-generated.
+- **Queue Management:** Displays a queue of uploaded files with their processing status.
+- **Download Capability:** Allows users to download processed files.
+- **Responsive Design:** Ensures optimal viewing on various devices.
+- **Dockerized Setup:** Easy deployment using Docker and Docker Compose.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Demo
 
-### `npm run build`
+![App Screenshot](UI-Uploader-Screenshot.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Follow these instructions to set up and run the project on your local machine for development and testing purposes.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Prerequisites
 
-### `npm run eject`
+Ensure you have the following installed on your machine:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- [Node.js](https://nodejs.org/) (v18 or later)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [Docker](https://www.docker.com/) (optional, for containerized setup)
+- [Docker Compose](https://docs.docker.com/compose/) (optional, for containerized setup)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Installation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. **Clone the Repository**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   ```bash
+   git clone https://github.com/your-username/audio-uploader.git
+   cd audio-uploader
+   ```
 
-## Learn More
+2. **Install Dependencies**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```bash
+   npm install
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. **Set Up Environment Variables**
 
-### Code Splitting
+   Create a `.env` file in the root directory and specify any necessary environment variables. *(Customize as needed.)*
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   ```env
+   PORT=3001
+   ```
 
-### Analyzing the Bundle Size
+### Running the Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+You can run the application either using `npm` or Docker.
 
-### Making a Progressive Web App
+#### Using npm
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. **Using Docker Compose (Recommended)**
 
-### Advanced Configuration
+   Alternatively, you can use Docker Compose for a simplified setup.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+   ```bash
+   docker-compose up --build
+   ```
 
-### Deployment
+1. **Start the Backend Server and Frontend Development Server**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+   ```bash
+   npm run server
+   ```
 
-### `npm run build` fails to minify
+   > **Note:** Ensure that the backend server script is defined in your `package.json`. If not, you may need to add it or adjust the commands accordingly.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   In a new terminal window, run:
+
+   ```bash
+   npm start
+   ```
+
+3. **Access the Application**
+
+   Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the application.
+
+## Usage
+
+1. **Upload a File**
+
+   - Click on the "Choose File" button.
+   - Select a `.wav` or `.mp4` file from your device.
+
+2. **Preview the File**
+
+   - After selecting, a preview of the audio or video will be displayed.
+   
+3. **Upload the File**
+
+   - Click the "Upload" button to submit the file.
+   - The upload status will be displayed below the button.
+
+4. **View Queued Files**
+
+   - Uploaded files will appear in the "Queued Files" section.
+   - Each file will show its inference result once processed.
+
+5. **Download Processed Files**
+
+   - Click the "Download" link next to a file to download it.
+
+## Project Structure
+
+- **public/**: Contains static files like HTML, icons, and manifest.
+- **src/**: Contains React components, styles, and test files.
+- **uploads/**: Directory where uploaded files are stored.
+- **server.js**: Express.js backend server handling API requests.
+- **Dockerfile**: Instructions to build the Docker image.
+- **docker-compose.yml**: Configuration for Docker Compose.
+- **start.sh**: Script to start both frontend and backend services.
+- **.gitignore**: Specifies files and directories to be ignored by Git.
+
+## API Endpoints
+
+### `POST /upload`
+
+- **Description:** Uploads a `.wav` or `.mp4` file.
+- **Request Body:** `multipart/form-data` with a `file` field.
+- **Response:**
+  - `200 OK` on successful upload.
+  - `400 Bad Request` if no file is uploaded or invalid file type.
+  - `500 Internal Server Error` on server-side errors.
+
+### `GET /queue`
+
+- **Description:** Retrieves the list of queued files with their download URLs and inference results.
+- **Response:**
+  - `200 OK` with JSON array of files.
+  - `500 Internal Server Error` on server-side errors.
+
+### `GET /download/:filename`
+
+- **Description:** Downloads the specified file.
+- **Parameters:**
+  - `filename` (path parameter): Name of the file to download.
+- **Response:**
+  - `200 OK` with the file.
+  - `404 Not Found` if the file does not exist.
+
+### `POST /inference-result`
+
+- **Description:** Receives inference results for a file.
+- **Request Body:** JSON object with `filename` (string) and `isHuman` (boolean).
+- **Response:**
+  - `200 OK` on successful recording of inference result.
+  - `400 Bad Request` if required fields are missing or invalid.
+  - `500 Internal Server Error` on server-side errors.
+
+## Technologies Used
+
+- **Frontend:**
+  - [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
+  - [Create React App](https://create-react-app.dev/) - Toolchain for creating React applications.
+  - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) - Styling the application.
+
+- **Backend:**
+  - [Express.js](https://expressjs.com/) - Web framework for Node.js.
+  - [Multer](https://github.com/expressjs/multer) - Middleware for handling `multipart/form-data`.
+  - [Fluent-ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg) - FFmpeg bindings for Node.js.
+  - [cors](https://github.com/expressjs/cors) - Middleware for enabling CORS.
+
+- **Others:**
+  - [Docker](https://www.docker.com/) - Containerization platform.
+  - [Docker Compose](https://docs.docker.com/compose/) - Tool for defining and running multi-container Docker applications.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Acknowledgments
+
+- [Create React App](https://github.com/facebook/create-react-app) for bootstrapping the frontend.
+- [Fluent-ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg) for seamless video to audio conversion.
+- [Express.js](https://expressjs.com/) for the robust backend framework.
+- [Docker](https://www.docker.com/) for containerizing the application.
