@@ -200,10 +200,3 @@ You can run the application either using `npm` or Docker.
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-## Acknowledgments
-
-- [Create React App](https://github.com/facebook/create-react-app) for bootstrapping the frontend.
-- [Fluent-ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg) for seamless video to audio conversion.
-- [Express.js](https://expressjs.com/) for the robust backend framework.
-- [Docker](https://www.docker.com/) for containerizing the application.
