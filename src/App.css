@@ -22,7 +22,7 @@ body {
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  /* If you don’t want a semi-opaque box behind your content, you can remove the background-color and box-shadow. */
+  /* If you don't want a semi-opaque box behind your content, you can remove the background-color and box-shadow. */
 }
 
 /* Logo styling */
@@ -55,4 +55,30 @@ ul {
 
 li {
   margin-bottom: 0.5rem;
+}
+
+/* Inference result styling */
+.inference-result {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.inference-result.human {
+  background-color: rgba(0, 128, 0, 0.2);
+  color: #006400;
+}
+
+.inference-result.synthetic {
+  background-color: rgba(255, 0, 0, 0.2);
+  color: #8b0000;
+}
+
+/* Refresh indicator */
+.refresh-indicator {
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #666;
+  font-style: italic;
 }

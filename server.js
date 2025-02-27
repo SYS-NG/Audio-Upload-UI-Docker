@@ -84,23 +84,23 @@ app.post('/upload', upload.single('file'), (req, res) => {
   }
 });
 
-// GET /queue endpoint: return list of queued files with download URLs
+// GET /queue endpoint: return list of queued files with download URLs and inference results
 app.get('/queue', (req, res) => {
   console.log("Request received for /queue endpoint");
-  res.setHeader('Content-Type', 'application/json'); // Set content type to JSON
+  res.setHeader('Content-Type', 'application/json');
   if (!fileQueue || fileQueue.length === 0) {
     console.log("Queue is empty, returning empty array");
-    return res.json([]); // Return empty array if queue is empty
+    return res.json([]);
   }
   
   const files = fileQueue.map(file => ({
     originalname: file.originalname,
-    // Build a download URL dynamically; adjust hostname if needed
-    downloadUrl: `${req.protocol}://${req.get('host')}/download/${file.filename}`
+    downloadUrl: `${req.protocol}://${req.get('host')}/download/${file.filename}`,
+    // Include inference results if available
+    inferenceResult: file.inferenceResult || null
   }));
   console.log(`Returning ${fileQueue.length} files in the queue`);
   
-  // Try to send the response as JSON
   try {
     res.json(files);
   } catch (error) {
@@ -118,6 +118,40 @@ app.get('/download/:filename', (req, res) => {
   } else {
     res.status(404).json({ message: "File not found" });
   }
+});
+
+// POST /inference-result endpoint: receive inference results for files
+app.post('/inference-result', express.json(), (req, res) => {
+  const { filename, isHuman } = req.body;
+  
+  if (!filename) {
+    return res.status(400).json({ message: "Filename is required" });
+  }
+  
+  if (typeof isHuman !== 'boolean') {
+    return res.status(400).json({ message: "isHuman must be a boolean value" });
+  }
+  
+  console.log(`Received inference result for ${filename}: ${isHuman ? 'Human' : 'Synthetic AI'} voice detected`);
+  
+  // Find the file in the queue
+  const fileIndex = fileQueue.findIndex(file => file.filename === filename);
+  
+  if (fileIndex === -1) {
+    console.log(`File ${filename} not found in queue, ignoring inference result`);
+    return res.status(200).json({ message: "File not found in queue, result ignored" });
+  }
+  
+  // Update the file with inference results
+  fileQueue[fileIndex] = {
+    ...fileQueue[fileIndex],
+    inferenceResult: {
+      isHuman,
+      timestamp: new Date().toISOString()
+    }
+  };
+  
+  return res.status(200).json({ message: "Inference result recorded successfully" });
 });
 
 app.listen(PORT, () => {
