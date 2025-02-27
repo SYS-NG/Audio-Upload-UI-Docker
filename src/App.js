@@ -134,16 +134,42 @@ function App() {
 
   return (
     <div className="App">
+      <div className="white-container">
       <header className="App-header">
+        {/* Logo */}
         <img src="/logo.png" className="App-logo" alt="Momenta Logo" />
-        <h1 className="title">Audio Uploader</h1>
 
-        <div className="upload-section">
-          <input type="file" accept=".wav, .mp4" onChange={handleFileChange} />
-          <button onClick={handleUpload}>Upload</button>
+        {/* Explanation text under the logo/title */}
+        <p className="explanation">
+          Deepfake Audio Detection on AVS leverages AI to identify and protect against synthetic voice scams in real-time.
+        </p>
+
+        {/* Title */}
+        <h1 className="gradient-text">Audio Uploader</h1>
+        
+        {/* Container for instruction text and Choose File */}
+        <div className="upload-instruction-container">
+          <span className="upload-instruction">
+            Upload a video or audio you want to verify
+          </span>
+          <div className="upload-section">
+            {/* Label styled as a white/purple-outlined button */}
+            <label className="buttonWhite" htmlFor="file-input">
+              Choose File
+            </label>
+
+            {/* Hidden file input */}
+            <input
+              id="file-input"
+              type="file"
+              accept=".wav, .mp4"
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+          </div>
         </div>
 
-        {/* Preview before uploading */}
+        {/* Preview */}
         {selectedFile && (
           <div className="preview">
             <h3>Preview:</h3>
@@ -159,10 +185,19 @@ function App() {
           </div>
         )}
 
+        {/* Upload button */}
+        {selectedFile && (
+          <div className="upload-button-container">
+            <button className="buttonGradient" onClick={handleUpload}>
+              Upload
+            </button>
+          </div>
+        )}
+
         {/* Status message */}
         <p className="status">{uploadStatus}</p>
 
-        {/* Queued files with playable media, download link, and inference results */}
+        {/* Queued files */}
         <h2>Queued Files</h2>
         {isLoading && queue.length === 0 ? (
           <p>Loading...</p>
@@ -170,21 +205,16 @@ function App() {
           <ul className="file-list">
             {queue.map((file, index) => {
               const lowerName = file.originalname.toLowerCase();
-              // Create a stable key for media elements that won't change on re-renders
               const mediaKey = `media-${file.originalname}-${index}`;
-              
               return (
                 <li key={`file-${file.originalname}-${index}`} className="file-item">
                   <div className="file-info">
                     <strong>{file.originalname}</strong>
-                    
-                    {/* File inference result indicator */}
                     {file.inferenceResult && (
                       <div className={`inference-result ${file.inferenceResult.isHuman ? 'human' : 'synthetic'}`}>
                         <strong>Voice detected:</strong> {file.inferenceResult.isHuman ? 'Human' : 'Synthetic AI'}
                       </div>
                     )}
-                    
                     <div className="media-container">
                       {lowerName.endsWith('.mp4') ? (
                         <video width="320" height="240" controls key={mediaKey}>
@@ -200,7 +230,6 @@ function App() {
                         <span>{file.originalname}</span>
                       )}
                     </div>
-                    
                     <a href={file.downloadUrl} target="_blank" rel="noopener noreferrer" className="download-link">
                       Download {file.originalname}
                     </a>
@@ -211,6 +240,7 @@ function App() {
           </ul>
         )}
       </header>
+      </div>
     </div>
   );
 }
