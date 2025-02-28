@@ -1,23 +1,4 @@
-# Audio Uploader
-
-![Logo](public/logo.png)
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Demo](#demo)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Running the Application](#running-the-application)
-    - [Using npm](#using-npm)
-    - [Using Docker](#using-docker)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
-- [Technologies Used](#technologies-used)
-- [License](#license)
+# Audio Upload UI for Momenta AVS
 
 ## Introduction
 
